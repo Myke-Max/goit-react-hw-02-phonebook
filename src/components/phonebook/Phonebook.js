@@ -1,4 +1,7 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
+import s from '../phonebook/phonebook.module.css';
+import { IoCallSharp, IoAccessibilityOutline } from 'react-icons/io5';
 
 class Phonebook extends Component {
   state = {
@@ -28,16 +31,17 @@ class Phonebook extends Component {
 
   render() {
     const { contactsCount } = this.props;
-    console.log(contactsCount);
     const { name, number } = this.state;
     return (
-      <section>
-        <h2>Phonebook</h2>
-        <p>In your phone book: {contactsCount.length} contacts</p>
-        <form onSubmit={this.onSubmit}>
-          <label>
-            Name
+      <div className={s.contact__wrapper}>
+        <h2 className={s.title}>Phonebook</h2>
+        <p className={s.contacts__count}>In your phone book: {contactsCount.length} contacts</p>
+        <form className={s.form} onSubmit={this.onSubmit}>
+          <label className={s.contact__name}>
+            <IoAccessibilityOutline /> Name
             <input
+              className={s.input__name}
+              placeholder="Whats you're name?"
               type="text"
               name="name"
               value={name}
@@ -48,9 +52,11 @@ class Phonebook extends Component {
             />
           </label>
 
-          <label>
-            Number
+          <label className={s.contact__number}>
+            <IoCallSharp /> Number
             <input
+              className={s.input__tel}
+              placeholder="Your phone number"
               type="tel"
               name="number"
               value={number}
@@ -61,11 +67,18 @@ class Phonebook extends Component {
             />
           </label>
 
-          <button type="submit">Add contacts</button>
+          <button className={s.add__button} type="submit">
+            Add contacts
+          </button>
         </form>
-      </section>
+      </div>
     );
   }
 }
+
+Phonebook.propTypes = {
+  name: PropTypes.string.isRequired,
+  number: PropTypes.number.isRequired,
+};
 
 export default Phonebook;
