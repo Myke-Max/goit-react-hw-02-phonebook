@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import Phonebook from './components/phonebook/Phonebook';
+import Phonebook from './components/phonebook';
 import ContactsList from './components/contactList/ContactList';
-import Filter from './components/filterContacts/filterContacts';
-import Container from './components/container/Container';
+import Filter from './components/filterContacts';
+import Container from './components/container';
 import { v4 as uuidv4 } from 'uuid';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class App extends Component {
   state = {
@@ -13,6 +15,29 @@ class App extends Component {
       { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
     ],
     filter: '',
+  };
+  showError = () => {
+    return toast.error('🦄 The contact already exists in the phone book', {
+      position: 'top-left',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
+  showSuccess = () => {
+    return toast.success('🦄Added new contact', {
+      position: 'top-left',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   onSearchSameContact = newName => {
@@ -29,9 +54,11 @@ class App extends Component {
       this.setState(({ contacts }) => ({
         contacts: [newContact, ...contacts],
       }));
+      this.showSuccess();
       return;
     }
-    alert(`${name} is already in contacts`);
+    this.showError();
+    // alert(`${name} is already in contacts`);
   };
 
   getFilterValue = e => {
@@ -57,6 +84,7 @@ class App extends Component {
     const visibleContact = this.getVisibleContacts();
     return (
       <>
+        <ToastContainer />
         <Container>
           <Phonebook onSubmit={this.onSubmitForm} contactsCount={contacts} />
           <Filter value={filter} filterChange={this.getFilterValue} />

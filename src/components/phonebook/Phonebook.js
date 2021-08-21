@@ -77,8 +77,8 @@ class Phonebook extends Component {
 }
 
 Phonebook.propTypes = {
-  name: PropTypes.string.isRequired,
-  number: PropTypes.number.isRequired,
+  name: PropTypes.string,
+  number: PropTypes.number,
 };
 
 export default Phonebook;
